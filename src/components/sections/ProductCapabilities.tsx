@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 type SubSection = {
@@ -91,9 +94,13 @@ function SubSectionBlock({ section, index }: { section: SubSection; index: numbe
   );
 
   return (
-    <div
+    <motion.div
       className={`flex flex-col gap-8 md:flex-row md:items-center md:gap-12 ${section.imageRight ? "md:flex-row-reverse" : ""
         }`}
+      initial={{ opacity: 0, y: 52 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.85 }}
     >
       {section.imageRight ? (
         <>
@@ -106,7 +113,7 @@ function SubSectionBlock({ section, index }: { section: SubSection; index: numbe
           {content}
         </>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -136,15 +143,25 @@ export function ProductCapabilities() {
   return (
     <section className="bg-gray-50 py-16 md:py-24" aria-labelledby="product-capabilities-title">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <h2
+        <motion.h2
           id="product-capabilities-title"
           className="text-center text-3xl font-semibold text-gray-900 md:text-4xl"
+          initial={{ opacity: 0, y: 44 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.85 }}
         >
           为什么选我们
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-gray-600">
+        </motion.h2>
+        <motion.p
+          className="mx-auto mt-4 max-w-2xl text-center text-gray-600"
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.85, delay: 0.15 }}
+        >
           能力与场景结合，用产品说话
-        </p>
+        </motion.p>
       </div>
       <div className="mt-12 divide-y divide-gray-200">
         {sections.map((sec, i) => (

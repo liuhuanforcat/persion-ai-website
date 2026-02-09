@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export type HeroSlide = {
   id: string;
@@ -72,16 +73,28 @@ export function HeroCarousel({ slides = defaultSlides }: { slides?: HeroSlide[] 
           )}
           <div className="absolute inset-0 bg-black/40" aria-hidden />
           <div className="relative flex h-full items-center justify-center px-4 text-center">
-            <div>
+            <motion.div
+              key={s.id}
+              initial={{ opacity: 0, y: 48 }}
+              animate={i === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 48 }}
+              transition={{ duration: 0.85, delay: i === index ? 0.2 : 0 }}
+              className="max-w-3xl"
+            >
               <p className="text-lg text-white/90 md:text-xl">{s.subtitle}</p>
               <h1 className="mt-3 text-4xl font-bold leading-tight text-white drop-shadow-md md:text-5xl lg:text-6xl">
                 {s.title.map((line, j) => (
-                  <span key={j} className="block">
+                  <motion.span
+                    key={j}
+                    className="block"
+                    initial={{ opacity: 0, y: 28 }}
+                    animate={i === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+                    transition={{ duration: 0.7, delay: i === index ? 0.4 + j * 0.15 : 0 }}
+                  >
                     {line}
-                  </span>
+                  </motion.span>
                 ))}
               </h1>
-            </div>
+            </motion.div>
           </div>
         </div>
       ))}
