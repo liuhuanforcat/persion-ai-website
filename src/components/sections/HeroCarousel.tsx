@@ -15,13 +15,13 @@ export type HeroSlide = {
 const defaultSlides: HeroSlide[] = [
   {
     id: "1",
-    backgroundImage: "/images/hero-1.jpg",
+    backgroundImage: "/images/index-banner.webp",
     subtitle: "无论身处何地",
     title: ["都能携手创造", "非凡"],
   },
   {
     id: "2",
-    backgroundImage: "/images/hero-2.jpg",
+    backgroundImage: "/images/platform-banner-bg.png",
     subtitle: "远程协作，随时连接",
     title: ["打破距离", "一起创造"],
   },

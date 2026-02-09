@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "全能数字 - 用科技打破空间界限",
   description:
     "远程协作、随时连接。沟通、教育、娱乐多场景音视频与协作解决方案。超低延时、8K 画质、智能多端。",
-  openGraph: { images: ["/images/og.png"] },
+  openGraph: { images: ["/images/logo.png"] },
 };
 
 export default function RootLayout({

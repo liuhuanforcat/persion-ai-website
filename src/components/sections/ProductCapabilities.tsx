@@ -12,7 +12,7 @@ type SubSection = {
 const sections: SubSection[] = [
   {
     title: "超低延时，你我零距离",
-    image: "/images/cap-low-latency.jpg",
+    image: "/images/low-delayed.png",
     imageAlt: "低延时远程协同示意",
     imageRight: false,
     points: [
@@ -25,7 +25,7 @@ const sections: SubSection[] = [
   },
   {
     title: "内外兼修，别具匠心",
-    image: "/images/cap-quality.jpg",
+    image: "/images/meeting/meetingBanner.png",
     imageAlt: "8K 画质与终端工艺",
     imageRight: true,
     points: [
@@ -38,7 +38,7 @@ const sections: SubSection[] = [
   },
   {
     title: "智始智中，想你所想",
-    image: "/images/cap-smart.jpg",
+    image: "/images/fusion/multi-terminal.png",
     imageAlt: "多端与智能能力",
     imageRight: false,
     points: [

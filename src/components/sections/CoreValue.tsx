@@ -9,20 +9,20 @@ type Card = {
 
 const cards: Card[] = [
   {
-    image: "/images/value-communicate.jpg",
-    icon: "/images/icon-communicate.svg",
+    image: "/images/communicate.png",
+    icon: "/images/communicate.png",
     title: "沟通",
     description: "解决远程沟通不畅、信息不同步的痛点，让团队无论分散何处都能高效协作、随时连接。",
   },
   {
-    image: "/images/value-education.jpg",
-    icon: "/images/icon-education.svg",
+    image: "/images/education.png",
+    icon: "/images/education.png",
     title: "教育",
     description: "打破地域与设备限制，让优质内容触达更多学员，实现互动课堂与远程培训的顺畅体验。",
   },
   {
-    image: "/images/value-entertainment.jpg",
-    icon: "/images/icon-entertainment.svg",
+    image: "/images/amusement.png",
+    icon: "/images/amusement.png",
     title: "娱乐",
     description: "低延时、高画质与多端协同，为直播、互动娱乐等场景带来沉浸式与稳定可靠的表现。",
   },

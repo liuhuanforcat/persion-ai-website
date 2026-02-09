@@ -7,8 +7,8 @@ type ContactModalProps = {
   onClose: () => void;
 };
 
-/** 企业微信二维码图片路径，请将实际二维码放到 public/images/wecom-qr.png */
-const WECOM_QR = "/images/wecom-qr.png";
+/** 企业微信二维码图片路径 */
+const WECOM_QR = "/images/qywx-qrcode.png";
 
 export function ContactModal({ open, onClose }: ContactModalProps) {
   useEffect(() => {
@@ -64,7 +64,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
                 (e.target as HTMLImageElement).nextElementSibling?.classList.remove("hidden");
               }}
             />
-            <span className="hidden text-sm text-gray-500">请放置二维码图片至 public/images/wecom-qr.png</span>
+            <span className="hidden text-sm text-gray-500">请放置二维码图片至 public/images/qywx-qrcode.png</span>
           </div>
         </div>
         <p className="mt-4 text-center text-sm text-gray-600">
