@@ -14,6 +14,8 @@ interface Milestone {
   date: string;
   title: string;
   description: string;
+  /** 配图路径（可选） */
+  image?: string;
 }
 
 const milestones: Milestone[] = [
@@ -23,6 +25,7 @@ const milestones: Milestone[] = [
     title: "公司正式成立",
     description:
       "杭州全能数字科技有限公司正式成立，开启实时音视频通讯领域的创业之旅。",
+    image: "/images/time-1.png",
   },
   {
     id: "m2",
@@ -30,6 +33,7 @@ const milestones: Milestone[] = [
     title: "Enheylig 硬件品牌发布",
     description:
       "旗下硬件品牌 Enheylig 正式对外发布，标志着公司硬件产品线的开端。",
+    image: "/images/time-2.png",
   },
   {
     id: "m3",
@@ -37,6 +41,7 @@ const milestones: Milestone[] = [
     title: "RTC 平台发布",
     description:
       "自研实时音视频通信（RTC）平台正式发布，为后续产品矩阵提供核心技术底座。",
+    image: "/images/time-3.png",
   },
   {
     id: "m4",
@@ -44,6 +49,7 @@ const milestones: Milestone[] = [
     title: "首款 4K 相机产品",
     description:
       "推出首款 4K 超高清相机产品，满足高端视频会议和直播场景的画质需求。",
+    image: "/images/time-4.png",
   },
   {
     id: "m5",
@@ -51,6 +57,7 @@ const milestones: Milestone[] = [
     title: "数字对讲系统发布",
     description:
       "数字对讲系统正式发布，为企业和行业客户提供专业的即时通讯解决方案。",
+    image: "/images/time-5.png",
   },
   {
     id: "m6",
@@ -58,6 +65,7 @@ const milestones: Milestone[] = [
     title: "海外市场与新品突破",
     description:
       "开拓海外市场，同步发布分体式终端和智能会议大屏，丰富产品形态。",
+    image: "/images/time-6.png",
   },
   {
     id: "m7",
@@ -65,6 +73,7 @@ const milestones: Milestone[] = [
     title: "四大产品发布",
     description:
       "一次性发布四大核心产品，形成完整的产品体系，覆盖会议、通信、协作、硬件全场景。",
+    image: "/images/time-7.png",
   },
   {
     id: "m8",
@@ -72,6 +81,7 @@ const milestones: Milestone[] = [
     title: "融合通信与应急指挥平台",
     description:
       "融合通信平台与应急指挥平台发布，进军政府及公共安全领域。",
+    image: "/images/time-8.png",
   },
   {
     id: "m9",
@@ -79,6 +89,7 @@ const milestones: Milestone[] = [
     title: "出货量破万，助力教育",
     description:
       "终端设备出货量突破万台，成功助力教育行业数字化转型。",
+    image: "/images/time-9.png",
   },
   {
     id: "m10",
@@ -86,6 +97,7 @@ const milestones: Milestone[] = [
     title: "会议直播与巡检落地",
     description:
       "会议直播系统发布，巡检项目成功落地，持续拓展行业应用场景。",
+    image: "/images/time-10.png",
   },
 ];
 
@@ -199,7 +211,7 @@ export function Timeline() {
                       {milestone.title}
                     </h3>
 
-                    {/* 展开详情 */}
+                    {/* 展开详情 + 配图 */}
                     <AnimatePresence>
                       {isActive && (
                         <motion.div
@@ -212,6 +224,15 @@ export function Timeline() {
                           }}
                           className="overflow-hidden"
                         >
+                          {milestone.image && (
+                            <div className="mt-3 overflow-hidden rounded-lg">
+                              <img
+                                src={milestone.image}
+                                alt={milestone.title}
+                                className="h-32 w-[240px] object-cover"
+                              />
+                            </div>
+                          )}
                           <p className="mt-3 max-w-[240px] text-center text-xs leading-relaxed text-gray-500">
                             {milestone.description}
                           </p>

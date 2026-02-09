@@ -9,24 +9,25 @@ import {
 
 interface Certification {
   name: string;
-  icon: string;
+  /** 图片路径 */
+  image: string;
 }
 
 const certifications: Certification[] = [
-  { name: "ISO 9000", icon: "🏅" },
-  { name: "ISO 14000", icon: "🌿" },
-  { name: "ISO 45000", icon: "🛡️" },
-  { name: "ISO 27000", icon: "🔒" },
-  { name: "ISO 28000", icon: "📦" },
-  { name: "ISO 20000", icon: "⚙️" },
-  { name: "CCC 证书", icon: "✅" },
-  { name: "专利证书", icon: "📜" },
-  { name: "知识产权", icon: "💡" },
-  { name: "鲲鹏技术认证", icon: "🦅" },
-  { name: "CMMI 3 级", icon: "📊" },
-  { name: "国家高新企业", icon: "🏢" },
-  { name: "科技型中小企业", icon: "🔬" },
-  { name: "网络安全等保三级", icon: "🔐" },
+  { name: "ISO 9000", image: "/images/iso.png" },
+  { name: "ISO 14000", image: "/images/iso.png" },
+  { name: "ISO 45000", image: "/images/iso.png" },
+  { name: "ISO 27000", image: "/images/iso.png" },
+  { name: "ISO 28000", image: "/images/iso.png" },
+  { name: "ISO 20000", image: "/images/iso.png" },
+  { name: "CCC 证书", image: "/images/3c.png" },
+  { name: "专利证书", image: "/images/patent.png" },
+  { name: "知识产权", image: "/images/intellectual.png" },
+  { name: "鲲鹏技术认证", image: "/images/kunpeng.png" },
+  { name: "CMMI 3 级", image: "/images/cmmi.png" },
+  { name: "国家高新企业", image: "/images/gaoxin_qiye.png" },
+  { name: "科技型中小企业", image: "/images/gaoxin_qiye.png" },
+  { name: "网络安全等保三级", image: "/images/db-3.png" },
 ];
 
 // 复制一份用于无缝滚动
@@ -34,8 +35,14 @@ const doubledCertifications = [...certifications, ...certifications];
 
 export function Certifications() {
   return (
-    <section className="bg-white py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
+    <section className="relative overflow-hidden bg-white py-20 md:py-28">
+      {/* 背景装饰 */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
+        style={{ backgroundImage: "url('/images/certificate-bg.png')" }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
         <motion.h2
           variants={headingVariants}
           initial="hidden"
@@ -66,9 +73,15 @@ export function Certifications() {
           {doubledCertifications.map((cert, index) => (
             <div
               key={`${cert.name}-${index}`}
-              className="flex w-[180px] shrink-0 flex-col items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-5 py-6 transition-all duration-300 hover:border-blue-200 hover:bg-blue-50 hover:shadow-md"
+              className="flex w-[180px] shrink-0 flex-col items-center gap-4 rounded-xl border border-gray-100 bg-white px-5 py-6 shadow-sm transition-all duration-300 hover:border-blue-200 hover:bg-blue-50/50 hover:shadow-md"
             >
-              <span className="text-3xl">{cert.icon}</span>
+              <div className="flex h-14 w-14 items-center justify-center">
+                <img
+                  src={cert.image}
+                  alt={cert.name}
+                  className="h-full w-full object-contain"
+                />
+              </div>
               <span className="text-center text-sm font-medium text-gray-700">
                 {cert.name}
               </span>

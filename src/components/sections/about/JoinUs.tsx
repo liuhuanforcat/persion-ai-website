@@ -13,12 +13,19 @@ import {
 
 export function JoinUs() {
   return (
-    <section className="relative overflow-hidden bg-gray-900 py-20 md:py-28">
-      {/* 背景装饰 */}
+    <section className="relative overflow-hidden py-20 md:py-28">
+      {/* 背景图 */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/partner.png')" }}
+      />
+      {/* 深色遮罩 */}
+      <div className="absolute inset-0 bg-gray-900/85" />
+
+      {/* 装饰光效 */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-blue-600/10 blur-3xl" />
         <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/5 blur-3xl" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 text-center md:px-8">
