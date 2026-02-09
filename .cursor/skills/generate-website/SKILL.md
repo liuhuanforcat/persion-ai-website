@@ -14,7 +14,7 @@ description: 根据产品描述生成 Next.js 官网页面（App Router / React 
 1. **分析需求**：理解产品描述，确定页面类型（首页、详情页、平台页等）
 2. **生成页面与组件结构**：使用 [React 组件与页面结构技能](html-structure/SKILL.md)
 3. **生成样式**：使用 [Tailwind/样式生成技能](css-styling/SKILL.md)
-4. **生成客户端交互**：使用 [Client 组件与交互技能](js-interaction/SKILL.md)
+4. **生成客户端交互**：使用 [Client 组件与交互技能](js-interaction/SKILL.md)；若需动效或 3D，使用 [动画与 3D 技能](animation-3d/SKILL.md)
 5. **验证结构**：确保路由、引用与类型正确
 
 ## 项目结构规范
@@ -76,6 +76,7 @@ src/
 需要交互时调用 Client 组件与交互技能，提供：
 - 交互类型（轮播、动画、菜单、表单等）
 - 是否使用 `'use client'` 及 hooks
+- 若需求含**动画、3D、视差、Lottie**，同时参考 [动画与 3D 技能](animation-3d/SKILL.md) 做选型与实现
 
 ### 步骤4：检查
 - 路由与 `layout` 正确
@@ -110,3 +111,4 @@ src/
 - [React 组件与页面结构](html-structure/SKILL.md)
 - [Tailwind/样式生成](css-styling/SKILL.md)
 - [Client 组件与交互](js-interaction/SKILL.md)
+- [官网动画与 3D 效果](animation-3d/SKILL.md)
