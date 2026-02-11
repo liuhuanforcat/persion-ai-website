@@ -103,7 +103,7 @@ function PlatformCard({ platform }: { platform: Platform }) {
 
       {/* hover 悬浮层 */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-gradient-to-b from-blue-600/95 to-blue-700/95 backdrop-blur-sm transition-opacity duration-300 ${hovered ? "opacity-100" : "pointer-events-none opacity-0"
+        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#52c41a] backdrop-blur-sm transition-opacity duration-300 ${hovered ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
       >
         {isDesktop ? (
