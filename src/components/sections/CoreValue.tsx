@@ -13,19 +13,19 @@ type Card = {
 const cards: Card[] = [
   {
     image: "/images/communicate.png",
-    icon: "/images/communicate.png",
+    icon: "/images/mic.png",
     title: "沟通",
     description: "解决远程沟通不畅、信息不同步的痛点，让团队无论分散何处都能高效协作、随时连接。",
   },
   {
     image: "/images/education.png",
-    icon: "/images/education.png",
+    icon: "/images/book.png",
     title: "教育",
     description: "打破地域与设备限制，让优质内容触达更多学员，实现互动课堂与远程培训的顺畅体验。",
   },
   {
     image: "/images/amusement.png",
-    icon: "/images/amusement.png",
+    icon: "/images/game-handle.png",
     title: "娱乐",
     description: "低延时、高画质与多端协同，为直播、互动娱乐等场景带来沉浸式与稳定可靠的表现。",
   },
@@ -78,15 +78,19 @@ export function CoreValue() {
                 />
               </div>
               <div className="p-6">
-                {card.icon && (
-                  <ImageWithFallback
-                    src={card.icon}
-                    alt=""
-                    className="mb-3 h-8 w-8"
-                    fallback={null}
-                  />
-                )}
-                <h3 className="text-xl font-semibold text-gray-900">{card.title}</h3>
+                <div className="flex items-center gap-2">
+                  {card.icon && (
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center">
+                      <ImageWithFallback
+                        src={card.icon}
+                        alt=""
+                        className="h-8 w-8 object-contain"
+                        fallback={null}
+                      />
+                    </span>
+                  )}
+                  <h3 className="text-xl font-semibold text-gray-900">{card.title}</h3>
+                </div>
                 <p className="mt-2 text-gray-600">{card.description}</p>
               </div>
             </motion.article>

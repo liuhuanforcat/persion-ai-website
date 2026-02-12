@@ -28,7 +28,7 @@ const sections: SubSection[] = [
   },
   {
     title: "内外兼修，别具匠心",
-    image: "/images/meeting/meetingBanner.png",
+    image: "/images/resolution-main.png",
     imageAlt: "8K 画质与终端工艺",
     imageRight: true,
     points: [
@@ -41,7 +41,7 @@ const sections: SubSection[] = [
   },
   {
     title: "智始智中，想你所想",
-    image: "/images/fusion/multi-terminal.png",
+    image: "/images/wisdom.png",
     imageAlt: "多端与智能能力",
     imageRight: false,
     points: [
