@@ -12,7 +12,7 @@ export function SolutionCTA() {
       <section className="bg-white py-16 md:py-24" aria-labelledby="solution-cta-title">
         <motion.div
           className="mx-auto max-w-3xl px-4 text-center md:px-8"
-          initial={{ opacity: 0, y: 48 }}
+          initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.85 }}

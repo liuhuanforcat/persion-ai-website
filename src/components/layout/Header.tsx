@@ -23,7 +23,10 @@ export function Header() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     }
@@ -31,46 +34,34 @@ export function Header() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const isLight = !scrolled;
-
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 shadow-md backdrop-blur" : "bg-transparent"
+      className={`fixed left-0 right-0 top-0 z-50 bg-black/70 backdrop-blur transition-all duration-300 ${scrolled ? "shadow-md" : ""
         }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-18 md:px-8">
+      <div className="mx-auto flex h-13 max-w-7xl items-center justify-between px-4 md:h-13 md:px-8">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-semibold">
-            {isLight ? (
-              <span className="text-white drop-shadow-md">全能数字</span>
-            ) : (
-              <span className="text-gray-900">全能数字</span>
-            )}
-          </span>
+          <img src="/images/logo.png" alt="全能数字" className="w-28 h-6" />
         </Link>
 
-        <nav className="flex items-center gap-6 md:gap-8">
-          <Link
-            href="/about"
-            className={`text-sm font-medium transition-colors hover:opacity-80 ${isLight ? "text-white" : "text-gray-700"
-              }`}
+        <nav className="flex items-center gap-10 md:gap-20">
+          <a
+            href="https://www.enheylig.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-white transition-colors hover:opacity-80"
           >
-            关于
-          </Link>
-          <Link
-            href="/download"
-            className={`text-sm font-medium transition-colors hover:opacity-80 ${isLight ? "text-white" : "text-gray-700"
-              }`}
-          >
-            下载中心
-          </Link>
-
+            <img
+              src="/images/enheylig.png"
+              alt="Enheylig"
+              className="w-20 h-5"
+            />
+          </a>
           <div className="relative" ref={dropdownRef}>
             <button
               type="button"
               onClick={() => setDropdownOpen((o) => !o)}
-              className={`flex items-center gap-1 text-sm font-medium transition-colors hover:opacity-80 ${isLight ? "text-white" : "text-gray-700"
-                }`}
+              className="flex items-center gap-1 text-sm font-medium text-white transition-colors hover:opacity-80"
               aria-expanded={dropdownOpen}
               aria-haspopup="true"
             >
@@ -81,16 +72,21 @@ export function Header() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
             {dropdownOpen && (
-              <ul className="absolute top-full left-0 mt-1 min-w-[180px] rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
+              <ul className="absolute top-full left-0 mt-1 min-w-[180px] rounded-lg border border-white/20 bg-black/70 py-2 shadow-lg backdrop-blur">
                 {platformLinks.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block px-4 py-2 text-sm text-white/90 hover:bg-white/10"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {item.label}
@@ -100,16 +96,18 @@ export function Header() {
               </ul>
             )}
           </div>
-
-          <a
-            href="https://www.enheylig.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`text-sm font-medium transition-colors hover:opacity-80 ${isLight ? "text-white" : "text-gray-700"
-              }`}
+          <Link
+            href="/download"
+            className="text-sm font-medium text-white transition-colors hover:opacity-80"
           >
-            Enheylig
-          </a>
+            下载中心
+          </Link>
+          <Link
+            href="/about"
+            className="text-sm font-medium text-white transition-colors hover:opacity-80"
+          >
+            关于
+          </Link>
         </nav>
       </div>
     </header>

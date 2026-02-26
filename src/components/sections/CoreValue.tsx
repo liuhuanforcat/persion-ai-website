@@ -38,7 +38,7 @@ export function CoreValue() {
         <motion.h2
           id="core-value-title"
           className="text-center text-3xl font-semibold text-gray-900 md:text-4xl"
-          initial={{ opacity: 0, y: 44 }}
+          initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.85 }}
@@ -47,7 +47,7 @@ export function CoreValue() {
         </motion.h2>
         <motion.p
           className="mx-auto mt-4 max-w-2xl text-center text-gray-600"
-          initial={{ opacity: 0, y: 36 }}
+          initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.85, delay: 0.15 }}
@@ -59,7 +59,7 @@ export function CoreValue() {
             <motion.article
               key={i}
               className="overflow-hidden rounded-xl bg-gray-50 shadow-sm transition-shadow duration-300 hover:shadow-lg"
-              initial={{ opacity: 0, y: 48 }}
+              initial={{ opacity: 0, y: 200 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.75, delay: i * 0.18 }}

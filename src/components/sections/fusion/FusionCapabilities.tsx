@@ -47,23 +47,23 @@ export function FusionCapabilities() {
           whileInView="visible"
           viewport={imageViewport}
         >
-          <div className="overflow-hidden rounded-2xl bg-white p-4 shadow-lg md:p-8">
-            <ImageWithFallback
-              src="/images/fusion/capabilities.png"
-              alt="融合能力全景图 — 展示支持的各类终端和协议"
-              className="w-full rounded-lg object-contain"
-              fallback={
-                <div className="flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-500 md:h-[480px]">
-                  <div className="text-center">
-                    <p className="text-lg font-medium">融合能力全景图</p>
-                    <p className="mt-2 text-sm text-gray-400">
-                      展示支持的各类终端和协议
-                    </p>
-                  </div>
+          {/* <div className="overflow-hidden rounded-2xl bg-white p-4 shadow-lg md:p-8"> */}
+          <ImageWithFallback
+            src="/images/fusion/capabilities.png"
+            alt="融合能力全景图 — 展示支持的各类终端和协议"
+            className="w-full rounded-lg object-contain"
+            fallback={
+              <div className="flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-500 md:h-[480px]">
+                <div className="text-center">
+                  <p className="text-lg font-medium">融合能力全景图</p>
+                  <p className="mt-2 text-sm text-gray-400">
+                    展示支持的各类终端和协议
+                  </p>
                 </div>
-              }
-            />
-          </div>
+              </div>
+            }
+          />
+          {/* </div> */}
         </motion.div>
 
         {/* 能力标签 */}

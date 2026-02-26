@@ -49,23 +49,23 @@ export function EmcAnalysis() {
             whileInView="visible"
             viewport={imageViewport}
           >
-            <div className="overflow-hidden rounded-2xl bg-white p-4 shadow-lg md:p-6">
-              <ImageWithFallback
-                src="/images/emc/capabilities.png"
-                alt="分析研判与资源调度示意图 — 地图定位+视频调阅+力量分布"
-                className="w-full rounded-lg object-contain"
-                fallback={
-                  <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gradient-to-br from-orange-50 to-amber-100 text-gray-500 md:h-80">
-                    <div className="text-center">
-                      <p className="text-lg font-medium">分析研判示意图</p>
-                      <p className="mt-2 text-sm text-gray-400">
-                        地图定位 + 视频调阅 + 力量分布
-                      </p>
-                    </div>
+            {/* <div className="overflow-hidden rounded-2xl bg-white p-4 shadow-lg md:p-6"> */}
+            <ImageWithFallback
+              src="/images/emc/capabilities.png"
+              alt="分析研判与资源调度示意图 — 地图定位+视频调阅+力量分布"
+              className="w-full rounded-lg object-contain"
+              fallback={
+                <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gradient-to-br from-orange-50 to-amber-100 text-gray-500 md:h-80">
+                  <div className="text-center">
+                    <p className="text-lg font-medium">分析研判示意图</p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      地图定位 + 视频调阅 + 力量分布
+                    </p>
                   </div>
-                }
-              />
-            </div>
+                </div>
+              }
+            />
+            {/* </div> */}
           </motion.div>
 
           {/* 要点 */}

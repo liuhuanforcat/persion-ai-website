@@ -78,7 +78,7 @@ function SubSectionBlock({ section, index }: { section: SubSection; index: numbe
 
   const media = (
     <div className="flex-1">
-      <div className="aspect-video w-full overflow-hidden rounded-lg bg-gray-200">
+      <div className="aspect-video w-full overflow-hidden rounded-lg bg-gray-150">
         <ImageWithFallback
           src={section.image}
           alt={section.imageAlt}
@@ -97,7 +97,7 @@ function SubSectionBlock({ section, index }: { section: SubSection; index: numbe
     <motion.div
       className={`flex flex-col gap-8 md:flex-row md:items-center md:gap-12 ${section.imageRight ? "md:flex-row-reverse" : ""
         }`}
-      initial={{ opacity: 0, y: 52 }}
+      initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.85 }}
@@ -146,7 +146,7 @@ export function ProductCapabilities() {
         <motion.h2
           id="product-capabilities-title"
           className="text-center text-3xl font-semibold text-gray-900 md:text-4xl"
-          initial={{ opacity: 0, y: 44 }}
+          initial={{ opacity: 0, y: 150 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.85 }}
@@ -155,7 +155,7 @@ export function ProductCapabilities() {
         </motion.h2>
         <motion.p
           className="mx-auto mt-4 max-w-2xl text-center text-gray-600"
-          initial={{ opacity: 0, y: 36 }}
+          initial={{ opacity: 0, y: 150 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.85, delay: 0.15 }}
@@ -163,7 +163,7 @@ export function ProductCapabilities() {
           能力与场景结合，用产品说话
         </motion.p>
       </div>
-      <div className="mt-12 divide-y divide-gray-200">
+      <div className="mt-12 divide-y divide-gray-150">
         {sections.map((sec, i) => (
           <SubSectionWrapper key={i} section={sec} index={i}>
             <SubSectionBlock section={sec} index={i} />

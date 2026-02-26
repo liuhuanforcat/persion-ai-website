@@ -95,23 +95,23 @@ export function TalkbackAI() {
             whileInView="visible"
             viewport={imageViewport}
           >
-            <div className="overflow-hidden rounded-2xl bg-gray-50 p-4 shadow-lg md:p-6">
-              <ImageWithFallback
-                src="/images/talkback/multi-terminal.png"
-                alt="AI处理能力示意图 — 语音质检、声纹打卡、语音播报"
-                className="w-full rounded-lg object-contain"
-                fallback={
-                  <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-500 md:h-80">
-                    <div className="text-center">
-                      <p className="text-lg font-medium">AI能力示意图</p>
-                      <p className="mt-2 text-sm text-gray-400">
-                        语音质检 · 声纹打卡 · 语音播报
-                      </p>
-                    </div>
+            {/* <div className="overflow-hidden rounded-2xl bg-gray-50 p-4 shadow-lg md:p-6"> */}
+            <ImageWithFallback
+              src="/images/talkback/multi-terminal.png"
+              alt="AI处理能力示意图 — 语音质检、声纹打卡、语音播报"
+              className="w-full rounded-lg object-contain"
+              fallback={
+                <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-500 md:h-80">
+                  <div className="text-center">
+                    <p className="text-lg font-medium">AI能力示意图</p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      语音质检 · 声纹打卡 · 语音播报
+                    </p>
                   </div>
-                }
-              />
-            </div>
+                </div>
+              }
+            />
+            {/* </div> */}
           </motion.div>
         </div>
       </div>

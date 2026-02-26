@@ -49,23 +49,23 @@ export function TalkbackDataSecurity() {
             whileInView="visible"
             viewport={imageViewport}
           >
-            <div className="overflow-hidden rounded-2xl bg-white p-4 shadow-lg md:p-6">
-              <ImageWithFallback
-                src="/images/talkback/capabilities.png"
-                alt="本地＋云端双重备份架构示意图"
-                className="w-full rounded-lg object-contain"
-                fallback={
-                  <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gradient-to-br from-emerald-50 to-teal-100 text-gray-500 md:h-80">
-                    <div className="text-center">
-                      <p className="text-lg font-medium">双重备份架构示意图</p>
-                      <p className="mt-2 text-sm text-gray-400">
-                        本地存储 + 云端备份
-                      </p>
-                    </div>
+            {/* <div className="overflow-hidden rounded-2xl bg-white p-4 shadow-lg md:p-6"> */}
+            <ImageWithFallback
+              src="/images/talkback/capabilities.png"
+              alt="本地＋云端双重备份架构示意图"
+              className="w-full rounded-lg object-contain"
+              fallback={
+                <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gradient-to-br from-emerald-50 to-teal-100 text-gray-500 md:h-80">
+                  <div className="text-center">
+                    <p className="text-lg font-medium">双重备份架构示意图</p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      本地存储 + 云端备份
+                    </p>
                   </div>
-                }
-              />
-            </div>
+                </div>
+              }
+            />
+            {/* </div> */}
           </motion.div>
 
           {/* 要点 */}
