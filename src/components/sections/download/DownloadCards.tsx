@@ -72,7 +72,7 @@ const platforms: Platform[] = [
 /* ------------------------------------------------------------------ */
 
 function PlatformCard({ platform }: { platform: Platform }) {
-  const [hovered, setHovered] = useState(false);
+  const [active, setActive] = useState(false);
   const isDesktop = !!platform.downloadUrl;
 
   const cardContent = (
@@ -80,8 +80,9 @@ function PlatformCard({ platform }: { platform: Platform }) {
       variants={cardVariants}
       whileHover={{ y: -8 }}
       transition={SPRING.snappy}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+      onClick={() => { if (!isDesktop) setActive((o) => !o); }}
       className="group relative flex h-full flex-col items-center overflow-hidden rounded-2xl border border-gray-100 bg-white px-6 py-10 shadow-sm transition-shadow hover:shadow-xl"
     >
       {/* 平台插画图标 */}
@@ -101,14 +102,26 @@ function PlatformCard({ platform }: { platform: Platform }) {
         {platform.version} · {platform.updatedAt}
       </p>
 
-      {/* hover 悬浮层 */}
+      {/* 移动端：直接显示二维码，不依赖 hover */}
+      {!isDesktop && platform.qrCode && (
+        <div className="mt-4 flex flex-col items-center gap-2 sm:hidden">
+          <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-gray-50 p-1">
+            <img
+              src={platform.qrCode}
+              alt={`${platform.name} 下载二维码`}
+              className="h-full w-full object-contain"
+            />
+          </div>
+          <span className="text-xs text-gray-500">{platform.hoverText}</span>
+        </div>
+      )}
+
+      {/* hover/tap 悬浮层（大屏保留 hover，小屏点击触发） */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#52c41a] backdrop-blur-sm transition-opacity duration-300 ${hovered ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
+        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#52c41a] backdrop-blur-sm transition-opacity duration-300 ${active ? "opacity-100" : "pointer-events-none opacity-0"} ${!isDesktop ? "hidden sm:flex" : "flex"}`}
       >
         {isDesktop ? (
           <>
-            {/* 桌面端：下载图标 + 提示 */}
             <img
               src="/images/dowload-main.png"
               alt="下载"
@@ -118,7 +131,6 @@ function PlatformCard({ platform }: { platform: Platform }) {
           </>
         ) : (
           <>
-            {/* 移动端：二维码 + 提示 */}
             <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-white p-1.5">
               <img
                 src={platform.qrCode!}
@@ -133,7 +145,6 @@ function PlatformCard({ platform }: { platform: Platform }) {
     </motion.div>
   );
 
-  // 桌面端：整个卡片可点击
   if (isDesktop && platform.downloadUrl) {
     return (
       <a

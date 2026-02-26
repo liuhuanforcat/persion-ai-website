@@ -43,7 +43,7 @@ export function HeroCarousel({ slides = defaultSlides }: { slides?: HeroSlide[] 
   const slide = slides[index];
 
   return (
-    <section className="relative h-screen min-h-[480px] w-full overflow-hidden" aria-label="首屏轮播">
+    <section className="relative h-[70vh] min-h-[420px] w-full overflow-hidden md:h-screen md:min-h-[480px]" aria-label="首屏轮播">
       {slides.map((s, i) => (
         <div
           key={s.id}
@@ -80,8 +80,8 @@ export function HeroCarousel({ slides = defaultSlides }: { slides?: HeroSlide[] 
               transition={{ duration: 0.85, delay: i === index ? 0.2 : 0 }}
               className="max-w-3xl"
             >
-              <p className="text-lg text-white/90 md:text-xl">{s.subtitle}</p>
-              <h1 className="mt-3 text-4xl font-bold leading-tight text-white drop-shadow-md md:text-5xl lg:text-6xl">
+              <p className="text-base text-white/90 md:text-xl">{s.subtitle}</p>
+              <h1 className="mt-3 text-3xl font-bold leading-tight text-white drop-shadow-md md:text-5xl lg:text-6xl">
                 {s.title.map((line, j) => (
                   <motion.span
                     key={j}

@@ -146,7 +146,7 @@ export function ProductCapabilities() {
         <motion.h2
           id="product-capabilities-title"
           className="text-center text-3xl font-semibold text-gray-900 md:text-4xl"
-          initial={{ opacity: 0, y: 150 }}
+          initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.85 }}
@@ -155,7 +155,7 @@ export function ProductCapabilities() {
         </motion.h2>
         <motion.p
           className="mx-auto mt-4 max-w-2xl text-center text-gray-600"
-          initial={{ opacity: 0, y: 150 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.85, delay: 0.15 }}

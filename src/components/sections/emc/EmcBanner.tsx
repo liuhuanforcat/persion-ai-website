@@ -5,7 +5,7 @@ import { EASE, DURATION } from "@/lib/motion-variants";
 
 export function EmcBanner() {
   return (
-    <section className="relative flex h-[80vh] min-h-[520px] w-full items-center justify-center overflow-hidden bg-gray-900">
+    <section className="relative flex h-[60vh] min-h-[400px] w-full items-center justify-center overflow-hidden bg-gray-900 md:h-[80vh] md:min-h-[520px]">
       {/* 背景图 */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -35,7 +35,7 @@ export function EmcBanner() {
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.hero, delay: 0.4, ease: EASE.out }}
-          className="text-4xl font-bold text-white md:text-5xl lg:text-6xl"
+          className="text-3xl font-bold text-white md:text-5xl lg:text-6xl"
         >
           应急指挥平台
         </motion.h1>

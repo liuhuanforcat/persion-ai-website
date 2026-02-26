@@ -130,6 +130,9 @@ const contentVariants = {
 
 const AUTO_INTERVAL = 4000;
 
+const AXIS_LEFT = 12;
+const NODE_SIZES = { active: 20, past: 12, future: 10 };
+
 export function Timeline() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -137,6 +140,10 @@ export function Timeline() {
   const trackRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const mobileItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [mobileProgressPx, setMobileProgressPx] = useState(0);
 
   const goTo = useCallback(
     (index: number) => {
@@ -190,6 +197,23 @@ export function Timeline() {
     setProgressPx(Math.max(0, nodeCenterX - paddingLeft));
   }, [activeIndex]);
 
+  useEffect(() => {
+    const container = mobileContainerRef.current;
+    const item = mobileItemRefs.current[activeIndex];
+    if (!container || !item) return;
+
+    const updateProgress = () => {
+      const containerRect = container.getBoundingClientRect();
+      const itemRect = item.getBoundingClientRect();
+      const nodeCenter = itemRect.top - containerRect.top + 10;
+      setMobileProgressPx(Math.max(0, nodeCenter));
+    };
+
+    updateProgress();
+    const timer = setTimeout(updateProgress, 400);
+    return () => clearTimeout(timer);
+  }, [activeIndex]);
+
   const active = milestones[activeIndex];
   const [progressPx, setProgressPx] = useState(0);
 
@@ -210,7 +234,7 @@ export function Timeline() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={defaultViewport}
           transition={{ duration: DURATION.hero, delay: 0.15, ease: EASE.out }}
-          className="mx-auto mb-16 max-w-2xl text-center text-base text-gray-500"
+          className="mx-auto mb-10 max-w-2xl text-center text-base text-gray-500 md:mb-16"
         >
           从初创到行业引领者，每一步都踏实而有力
         </motion.p>
@@ -370,61 +394,81 @@ export function Timeline() {
         </motion.div>
 
         {/* ========== 移动端：垂直时间线 ========== */}
-        <div className="md:hidden">
-          <div className="relative pl-8">
-            {/* 垂直轴线 */}
-            <div className="absolute bottom-0 left-[11px] top-0 w-[2px] bg-gray-200" />
+        <div className="md:hidden" ref={mobileContainerRef}>
+          <div className="relative" style={{ paddingLeft: `${AXIS_LEFT + 20}px` }}>
+            {/* 垂直轨道线（灰色底线） */}
+            <div
+              className="absolute top-0 bottom-0 w-[2px] rounded-full bg-gray-200"
+              style={{ left: `${AXIS_LEFT}px` }}
+            />
+            {/* 进度线（蓝色，基于实际 DOM 位置） */}
             <motion.div
-              className="absolute left-[11px] top-0 w-[2px] bg-gradient-to-b from-blue-500 to-blue-400"
-              animate={{
-                height: `${((activeIndex + 1) / milestones.length) * 100}%`,
-              }}
+              className="absolute top-0 w-[2px] rounded-full bg-gradient-to-b from-blue-500 to-blue-400"
+              style={{ left: `${AXIS_LEFT}px` }}
+              initial={false}
+              animate={{ height: mobileProgressPx }}
               transition={{ duration: 0.5, ease: EASE.inOut }}
             />
 
             {milestones.map((m, i) => {
               const isActive = i === activeIndex;
               const isPast = i <= activeIndex;
+              const nodeSize = isActive ? NODE_SIZES.active : isPast ? NODE_SIZES.past : NODE_SIZES.future;
+
               return (
                 <motion.div
                   key={m.id}
-                  initial={{ opacity: 0, x: -20 }}
+                  ref={(el) => { mobileItemRefs.current[i] = el; }}
+                  initial={{ opacity: 0, x: -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
+                  viewport={{ once: true, margin: "-30px" }}
                   transition={{
-                    duration: 0.5,
-                    delay: i * 0.06,
+                    duration: 0.45,
+                    delay: i * 0.04,
                     ease: EASE.out,
                   }}
-                  className="relative pb-8 last:pb-0"
+                  className="relative pb-6 last:pb-0"
                 >
-                  {/* 节点 */}
+                  {/* 节点圆点 — 用绝对定位居中到轨道线上 */}
                   <div
-                    className={`absolute -left-8 top-1 flex items-center justify-center rounded-full transition-all duration-300 ${isActive
-                      ? "h-6 w-6 -ml-[3px] bg-blue-600 ring-4 ring-blue-100"
-                      : isPast
-                        ? "h-4 w-4 -ml-[1px] bg-blue-400"
-                        : "h-3 w-3 border-2 border-gray-300 bg-white"
+                    className="absolute top-1 flex items-center justify-center"
+                    style={{
+                      left: `${-(AXIS_LEFT + 20) + AXIS_LEFT + 1 - nodeSize / 2}px`,
+                      width: `${nodeSize}px`,
+                      height: `${nodeSize}px`,
+                    }}
+                  >
+                    <div
+                      className={`h-full w-full rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-blue-600 ring-[3px] ring-blue-100"
+                          : isPast
+                            ? "bg-blue-400"
+                            : "border-2 border-gray-300 bg-white"
                       }`}
-                  />
+                    />
+                  </div>
 
-                  {/* 卡片 */}
+                  {/* 卡片内容 */}
                   <button
                     onClick={() => handleUserInteract(i)}
-                    className={`w-full rounded-2xl text-left transition-all duration-300 ${isActive
-                      ? "bg-white p-5 shadow-md shadow-gray-200/60 ring-1 ring-gray-100"
-                      : "p-4 hover:bg-white/60"
-                      }`}
+                    className={`w-full rounded-xl text-left transition-all duration-300 ${
+                      isActive
+                        ? "bg-white p-4 shadow-md shadow-gray-200/60 ring-1 ring-gray-100"
+                        : "px-4 py-3"
+                    }`}
                   >
                     <span
-                      className={`text-xs font-semibold ${isActive ? "text-blue-600" : isPast ? "text-gray-500" : "text-gray-400"
-                        }`}
+                      className={`text-xs font-semibold ${
+                        isActive ? "text-blue-600" : isPast ? "text-gray-500" : "text-gray-400"
+                      }`}
                     >
                       {m.year} 年 {m.month}
                     </span>
                     <h3
-                      className={`mt-1 text-base font-bold ${isActive ? "text-gray-900" : "text-gray-700"
-                        }`}
+                      className={`mt-0.5 text-[15px] font-bold ${
+                        isActive ? "text-gray-900" : "text-gray-700"
+                      }`}
                     >
                       {m.title}
                     </h3>
@@ -441,10 +485,10 @@ export function Timeline() {
                             <img
                               src={m.image}
                               alt={m.title}
-                              className="mt-3 h-40 w-full rounded-xl object-cover"
+                              className="mt-3 h-36 w-full rounded-lg object-cover"
                             />
                           )}
-                          <p className="mt-3 text-sm leading-relaxed text-gray-500">
+                          <p className="mt-2.5 text-sm leading-relaxed text-gray-500">
                             {m.description}
                           </p>
                         </motion.div>

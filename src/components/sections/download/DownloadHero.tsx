@@ -40,7 +40,7 @@ export function DownloadHero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.hero, delay: 0.15, ease: EASE.out }}
-          className="text-3xl font-bold text-white md:text-5xl"
+          className="text-2xl font-bold text-white md:text-5xl"
         >
           下载会点点客户端
         </motion.h1>

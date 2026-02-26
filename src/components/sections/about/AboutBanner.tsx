@@ -5,7 +5,7 @@ import { EASE, DURATION } from "@/lib/motion-variants";
 
 export function AboutBanner() {
   return (
-    <section className="relative flex h-[70vh] min-h-[480px] w-full items-center justify-center overflow-hidden bg-gray-900">
+    <section className="relative flex h-[55vh] min-h-[380px] w-full items-center justify-center overflow-hidden bg-gray-900 md:h-[70vh] md:min-h-[480px]">
       {/* 背景图 */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -33,7 +33,7 @@ export function AboutBanner() {
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.hero, delay: 0.4, ease: EASE.out }}
-          className="text-4xl font-bold text-white md:text-6xl lg:text-7xl"
+          className="text-3xl font-bold text-white md:text-5xl lg:text-7xl"
         >
           美好沟通 · 连接世界
         </motion.h1>
