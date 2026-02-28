@@ -118,16 +118,16 @@ function PlatformCard({ platform }: { platform: Platform }) {
 
       {/* hover/tap 悬浮层（大屏保留 hover，小屏点击触发） */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#52c41a] backdrop-blur-sm transition-opacity duration-300 ${active ? "opacity-100" : "pointer-events-none opacity-0"} ${!isDesktop ? "hidden sm:flex" : "flex"}`}
+        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#fff] backdrop-blur-sm transition-opacity duration-300 ${active ? "opacity-100" : "pointer-events-none opacity-0"} ${!isDesktop ? "hidden sm:flex" : "flex"}`}
       >
         {isDesktop ? (
           <>
             <img
               src="/images/dowload-main.png"
               alt="下载"
-              className="h-16 w-16 object-contain brightness-0 invert"
+              className="h-16 w-16"
             />
-            <span className="text-sm font-medium text-white">{platform.hoverText}</span>
+            <span className="text-sm font-medium ">{platform.hoverText}</span>
           </>
         ) : (
           <>
@@ -138,7 +138,7 @@ function PlatformCard({ platform }: { platform: Platform }) {
                 className="h-full w-full object-contain"
               />
             </div>
-            <span className="text-sm font-medium text-white">{platform.hoverText}</span>
+            <span className="text-sm font-medium">{platform.hoverText}</span>
           </>
         )}
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   headingVariants,
@@ -48,9 +48,23 @@ const features: Feature[] = [
 /* 组件                                                                */
 /* ------------------------------------------------------------------ */
 
+const AUTO_PLAY_INTERVAL = 3000;
+
 export function ProductFeatures() {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = features[activeIndex];
+  const pausedRef = useRef(false);
+
+  const next = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % features.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!pausedRef.current) next();
+    }, AUTO_PLAY_INTERVAL);
+    return () => clearInterval(timer);
+  }, [next]);
 
   return (
     <section className="bg-white py-20 md:py-28">
@@ -78,7 +92,11 @@ export function ProductFeatures() {
         {/* 内容区域：左文案 + 右截图 */}
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
           {/* 左侧：特性切换 */}
-          <div className="w-full lg:w-[45%]">
+          <div
+            className="w-full lg:w-[45%]"
+            onMouseEnter={() => { pausedRef.current = true; }}
+            onMouseLeave={() => { pausedRef.current = false; }}
+          >
             <div className="space-y-4">
               {features.map((feature, index) => {
                 const isActive = index === activeIndex;
