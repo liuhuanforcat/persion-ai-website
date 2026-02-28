@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { EASE, DURATION } from "@/lib/motion-variants";
 
@@ -34,19 +33,23 @@ export function DownloadHero() {
         >
           <span>开发者：杭州全能数字科技有限公司</span>
           <span className="hidden sm:inline">·</span>
-          <Link
-            href="/service"
+          <a
+            href="https://meeting.onlineinline.com/statics/service_agreement.html"
+            target="_blank"
+            rel="noopener noreferrer"
             className="transition-colors hover:text-gray-700"
           >
             服务协议
-          </Link>
+          </a>
           <span>·</span>
-          <Link
-            href="/privacy"
+          <a
+            href="https://meeting.onlineinline.com/statics/privacy_policy.html"
+            target="_blank"
+            rel="noopener noreferrer"
             className="transition-colors hover:text-gray-700"
           >
             隐私政策
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>

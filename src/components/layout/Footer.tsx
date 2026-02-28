@@ -55,12 +55,12 @@ export function Footer() {
           <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-gray-500">
             <span>公安备案号（请替换为实际备案号）</span>
             <span>ICP 备案号（请替换为实际备案号）</span>
-            <Link href="/service" className="hover:text-gray-300">
+            <a href="https://meeting.onlineinline.com/statics/service_agreement.html" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
               服务协议
-            </Link>
-            <Link href="/privacy" className="hover:text-gray-300">
+            </a>
+            <a href="https://meeting.onlineinline.com/statics/privacy_policy.html" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
               隐私政策
-            </Link>
+            </a>
           </div>
         </div>
       </div>
