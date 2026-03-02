@@ -38,6 +38,10 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    const isProd = process.env.NODE_ENV === "production";
+    console.log("[Debug] NODE_ENV:", process.env.NODE_ENV);
+    console.log("[Debug] isProd:", isProd);
+    console.log("[Debug] API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
     return () => { document.body.style.overflow = ""; };
   }, [mobileMenuOpen]);
 
