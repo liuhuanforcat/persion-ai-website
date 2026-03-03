@@ -8,6 +8,10 @@ const instance = axios.create({
   baseURL: isProd ? "https://www.onlineinline.cn" : "https://172.25.11.120",
   timeout: 15000,
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+    'Origin': '*'
+  },
 });
 
 // 请求拦截器 —— 注意要挂在 instance 上，而非全局 axios

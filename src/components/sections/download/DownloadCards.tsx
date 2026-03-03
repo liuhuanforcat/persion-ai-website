@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   cardContainerVariants,
@@ -12,75 +12,86 @@ import {
   EASE,
 } from "@/lib/motion-variants";
 import { useDeviceType, type DeviceType } from "@/hooks/useDeviceType";
+import { get } from "@/lib/service";
 
 /* ------------------------------------------------------------------ */
-/* 平台数据                                                            */
+/* 类型定义                                                            */
 /* ------------------------------------------------------------------ */
+
+interface TerminalInfo {
+  downloadUrl: string;
+  terminalType: string;
+  upgradeDate: string;
+  version: string;
+}
+
+interface LatestInfoResult {
+  A?: TerminalInfo;
+  I?: TerminalInfo;
+  M?: TerminalInfo;
+  W?: TerminalInfo;
+}
 
 interface Platform {
   id: string;
   name: string;
-  /** 点击跳转（桌面端 hover 面板） */
   downloadUrl?: string;
-  /** 手机端直接下载链接 */
   mobileDownloadUrl?: string;
-  /** 二维码图片路径（桌面端展示） */
   qrCode?: string;
   version: string;
   updatedAt: string;
-  /** hover 提示文案 */
   hoverText: string;
-  /** 手机端按钮文案 */
   mobileButtonText?: string;
-  /** 平台插画图片路径 */
   image: string;
 }
 
-const platforms: Platform[] = [
-  {
-    id: "macos",
-    name: "macOS",
-    downloadUrl: "https://apps.apple.com/cn/app/id6480379498",
-    version: "v2.6.0",
-    updatedAt: "2025-01-15",
-    hoverText: "前往 App Store 下载",
-    image: "/images/mac.png",
-  },
-  {
-    id: "windows",
-    name: "Windows",
-    downloadUrl: "https://api.onlineinline.com/download/windows",
-    version: "v2.6.0",
-    updatedAt: "2025-01-15",
-    hoverText: "点击下载安装包",
-    image: "/images/win.png",
-  },
-  {
-    id: "ios",
-    name: "iOS",
-    qrCode: "/images/ios-download-qrcode.png",
-    mobileDownloadUrl: "https://apps.apple.com/cn/app/id6480379498",
-    mobileButtonText: "前往 App Store 下载",
-    version: "v2.6.0",
-    updatedAt: "2025-01-15",
-    hoverText: "扫码下载",
-    image: "/images/ios.png",
-  },
-  {
-    id: "android",
-    name: "Android",
-    qrCode: "/images/android-download-qrcode.png",
-    mobileDownloadUrl: "https://api.onlineinline.com/download/android",
-    mobileButtonText: "下载安卓版",
-    version: "v2.6.0",
-    updatedAt: "2025-01-15",
-    hoverText: "扫码下载",
-    image: "/images/android.png",
-  },
-];
+function buildPlatforms(result?: LatestInfoResult): Platform[] {
+  return [
+    {
+      id: "macos",
+      name: "macOS",
+      downloadUrl: result?.M?.downloadUrl || "https://apps.apple.com/cn/app/id6480379498",
+      version: result?.M ? `v${result.M.version}` : "",
+      updatedAt: result?.M?.upgradeDate || "",
+      hoverText: "前往 App Store 下载",
+      image: "/images/mac.png",
+    },
+    {
+      id: "windows",
+      name: "Windows",
+      downloadUrl: result?.W?.downloadUrl || "https://api.onlineinline.com/download/windows",
+      version: result?.W ? `v${result.W.version}` : "",
+      updatedAt: result?.W?.upgradeDate || "",
+      hoverText: "点击下载安装包",
+      image: "/images/win.png",
+    },
+    {
+      id: "ios",
+      name: "iOS",
+      qrCode: "/images/ios-download-qrcode.png",
+      mobileDownloadUrl: result?.I?.downloadUrl || "https://apps.apple.com/cn/app/id6480379498",
+      mobileButtonText: "前往 App Store 下载",
+      version: result?.I ? `v${result.I.version}` : "",
+      updatedAt: result?.I?.upgradeDate || "",
+      hoverText: "扫码下载",
+      image: "/images/ios.png",
+    },
+    {
+      id: "android",
+      name: "Android",
+      qrCode: "/images/android-download-qrcode.png",
+      mobileDownloadUrl: result?.A?.downloadUrl || "https://api.onlineinline.com/download/android",
+      mobileButtonText: "下载安卓版",
+      version: result?.A ? `v${result.A.version}` : "",
+      updatedAt: result?.A?.upgradeDate || "",
+      hoverText: "扫码下载",
+      image: "/images/android.png",
+    },
+  ];
+}
 
 /** 根据设备类型获取对应移动端平台 */
-function getMobilePlatform(device: DeviceType): Platform | null {
+function getMobilePlatform(device: DeviceType, platforms: Platform[]): Platform | null {
   if (device === "android") return platforms.find((p) => p.id === "android") ?? null;
   if (device === "ios") return platforms.find((p) => p.id === "ios") ?? null;
   return null;
@@ -185,9 +196,8 @@ function PlatformCard({ platform }: { platform: Platform }) {
 
       {/* hover/tap 悬浮层 */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-white backdrop-blur-sm transition-opacity duration-300 ${
-          active ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className={`absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-white backdrop-blur-sm transition-opacity duration-300 ${active ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
       >
         {hasDirectLink ? (
           <>
@@ -237,7 +247,21 @@ function PlatformCard({ platform }: { platform: Platform }) {
 
 export function DownloadCards() {
   const device = useDeviceType();
-  const mobilePlatform = getMobilePlatform(device);
+  const [platforms, setPlatforms] = useState<Platform[]>(() => buildPlatforms({}));
+
+  useEffect(() => {
+    get("/api/voip/v1/upgrade/officialWebsite/latest/info")
+      .then((res: { result?: LatestInfoResult }) => {
+        if (res?.result) {
+          setPlatforms(buildPlatforms(res.result));
+        }
+      })
+      .catch((err: Error) => {
+        console.error("[DownloadCards] 获取版本信息失败:", err.message);
+      });
+  }, []);
+
+  const mobilePlatform = getMobilePlatform(device, platforms);
 
   return (
     <section className="bg-gray-50 py-16 md:py-24">
