@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   cardContainerVariants,
@@ -13,6 +13,7 @@ import {
 } from "@/lib/motion-variants";
 import { useDeviceType, type DeviceType } from "@/hooks/useDeviceType";
 import { get } from "@/lib/service";
+import { SliderCaptcha } from "@/components/ui/SliderCaptcha";
 
 /* ------------------------------------------------------------------ */
 /* 类型定义                                                            */
@@ -101,7 +102,7 @@ function getMobilePlatform(device: DeviceType, platforms: Platform[]): Platform 
 /* 移动端下载按钮（仅显示当前设备平台）                                       */
 /* ------------------------------------------------------------------ */
 
-function MobileDownloadView({ platform }: { platform: Platform }) {
+function MobileDownloadView({ platform, onDownloadClick }: { platform: Platform; onDownloadClick: () => void }) {
   return (
     <motion.div
       initial="hidden"
@@ -109,7 +110,6 @@ function MobileDownloadView({ platform }: { platform: Platform }) {
       variants={fadeInUpVariants}
       className="flex flex-col items-center gap-6"
     >
-      {/* 平台图标 */}
       <motion.div
         initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -123,7 +123,6 @@ function MobileDownloadView({ platform }: { platform: Platform }) {
         />
       </motion.div>
 
-      {/* 平台信息 */}
       <div className="text-center">
         <h3 className="text-xl font-semibold text-gray-900">
           {platform.name} 版
@@ -133,11 +132,9 @@ function MobileDownloadView({ platform }: { platform: Platform }) {
         </p>
       </div>
 
-      {/* 下载按钮 */}
-      <motion.a
-        href={platform.mobileDownloadUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+      <motion.button
+        type="button"
+        onClick={onDownloadClick}
         whileTap={{ scale: 0.97 }}
         className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-gray-900 px-8 py-3.5 text-base font-medium text-white shadow-lg transition-colors active:bg-gray-800"
       >
@@ -155,7 +152,7 @@ function MobileDownloadView({ platform }: { platform: Platform }) {
           />
         </svg>
         {platform.mobileButtonText}
-      </motion.a>
+      </motion.button>
     </motion.div>
   );
 }
@@ -164,9 +161,14 @@ function MobileDownloadView({ platform }: { platform: Platform }) {
 /* 桌面端卡片                                                          */
 /* ------------------------------------------------------------------ */
 
-function PlatformCard({ platform }: { platform: Platform }) {
+function PlatformCard({ platform, onDownloadClick }: { platform: Platform; onDownloadClick: (p: Platform) => void }) {
   const [active, setActive] = useState(false);
   const hasDirectLink = !!platform.downloadUrl;
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onDownloadClick(platform);
+  };
 
   const cardContent = (
     <motion.div
@@ -175,10 +177,14 @@ function PlatformCard({ platform }: { platform: Platform }) {
       transition={SPRING.snappy}
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
-      onClick={() => {
-        if (!hasDirectLink) setActive((o) => !o);
+      onClick={(e) => {
+        if (hasDirectLink) {
+          handleClick(e);
+        } else {
+          setActive((o) => !o);
+        }
       }}
-      className="group relative flex h-full flex-col items-center overflow-hidden rounded-2xl border border-gray-100 bg-white px-6 py-10 shadow-sm transition-shadow hover:shadow-xl"
+      className="group relative flex h-full cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-gray-100 bg-white px-6 py-10 shadow-sm transition-shadow hover:shadow-xl"
     >
       <div className="mb-5 flex h-24 w-24 items-center justify-center">
         <img
@@ -224,20 +230,6 @@ function PlatformCard({ platform }: { platform: Platform }) {
     </motion.div>
   );
 
-  if (hasDirectLink && platform.downloadUrl) {
-    return (
-      <a
-        href={platform.downloadUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block"
-        aria-label={`下载 ${platform.name} 版本`}
-      >
-        {cardContent}
-      </a>
-    );
-  }
-
   return cardContent;
 }
 
@@ -248,6 +240,8 @@ function PlatformCard({ platform }: { platform: Platform }) {
 export function DownloadCards() {
   const device = useDeviceType();
   const [platforms, setPlatforms] = useState<Platform[]>(() => buildPlatforms({}));
+  const [captchaOpen, setCaptchaOpen] = useState(false);
+  const pendingPlatformRef = useRef<Platform | null>(null);
 
   useEffect(() => {
     get("/api/voip/v1/upgrade/officialWebsite/latest/info")
@@ -261,16 +255,34 @@ export function DownloadCards() {
       });
   }, []);
 
+  const handleDownloadClick = (platform: Platform) => {
+    pendingPlatformRef.current = platform;
+    setCaptchaOpen(true);
+  };
+
+  const handleCaptchaSuccess = (verKey: string, xPosition: number) => {
+    const platform = pendingPlatformRef.current;
+    if (!platform) return;
+
+    const downloadUrl = platform.downloadUrl || platform.mobileDownloadUrl;
+    if (downloadUrl) {
+      window.open(`${downloadUrl}?verKey=${verKey}&xPosition=${xPosition}`, "_blank");
+    }
+    setCaptchaOpen(false);
+    pendingPlatformRef.current = null;
+  };
+
   const mobilePlatform = getMobilePlatform(device, platforms);
 
   return (
     <section className="bg-gray-50 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {mobilePlatform ? (
-          /* 移动端：仅显示当前设备对应平台的下载按钮 */
-          <MobileDownloadView platform={mobilePlatform} />
+          <MobileDownloadView
+            platform={mobilePlatform}
+            onDownloadClick={() => handleDownloadClick(mobilePlatform)}
+          />
         ) : (
-          /* 桌面端：四宫格卡片 */
           <motion.div
             variants={cardContainerVariants}
             initial="hidden"
@@ -279,11 +291,20 @@ export function DownloadCards() {
             className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
           >
             {platforms.map((p) => (
-              <PlatformCard key={p.id} platform={p} />
+              <PlatformCard key={p.id} platform={p} onDownloadClick={handleDownloadClick} />
             ))}
           </motion.div>
         )}
       </div>
+
+      <SliderCaptcha
+        open={captchaOpen}
+        onClose={() => {
+          setCaptchaOpen(false);
+          pendingPlatformRef.current = null;
+        }}
+        onSuccess={handleCaptchaSuccess}
+      />
     </section>
   );
 }
