@@ -1,8 +1,23 @@
-import Link from "next/link";
+"use client";
 
-const currentYear = new Date().getFullYear();
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { post } from "@/lib/service";
 
 export function Footer() {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    post("/api/v1/auth/connect/test")
+      .then((res: any) => {
+        console.log(res);
+        if (res?.serverTimestamp) {
+          setYear(new Date(res.serverTimestamp).getFullYear());
+        }
+      })
+      .catch(() => { });
+  }, []);
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
@@ -51,13 +66,32 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-10 border-t border-gray-700 pt-8 text-sm">
-          <p className="text-gray-500">© {currentYear} 全能数字 版权所有</p>
-          <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-gray-500">
-            <span>公安备案号（请替换为实际备案号）</span>
-            <span>ICP 备案号（请替换为实际备案号）</span>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-gray-500">
+            <span className="text-xs sm:text-sm">Copyright ©{year}.杭州全能数字科技有限公司 All rights reserved.</span>
+            <span className="hidden sm:inline text-gray-600">|</span>
+            <a
+              href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002016825"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 hover:text-gray-300"
+            >
+              <img src="/images/jh.png" alt="警徽" className="h-4 w-4" />
+              浙公网安备33011002016825号
+            </a>
+            <span className="hidden sm:inline text-gray-600">|</span>
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-300"
+            >
+              浙ICP备2022000249号-1
+            </a>
+            <span className="hidden sm:inline text-gray-600">|</span>
             <a href="https://meeting.onlineinline.com/statics/service_agreement.html" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
               服务协议
             </a>
+            <span className="hidden sm:inline text-gray-600">|</span>
             <a href="https://meeting.onlineinline.com/statics/privacy_policy.html" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
               隐私政策
             </a>
