@@ -29,29 +29,29 @@ export function Footer() {
           <div className="flex flex-wrap gap-6 md:gap-10">
             <div>
               <h3 className="text-sm font-medium text-white">快速链接</h3>
-              <ul className="mt-3 space-y-2 text-sm">
+              <ul className="mt-3 space-y-1 text-sm">
                 <li>
                   <a
                     href="https://www.enheylig.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-white"
+                    className="inline-block py-1.5 hover:text-white"
                   >
                     Enheylig
                   </a>
                 </li>
                 <li>
-                  <Link href="/platform/fusion" className="hover:text-white">
+                  <Link href="/platform/fusion" className="inline-block py-1.5 hover:text-white">
                     平台服务
                   </Link>
                 </li>
                 <li>
-                  <Link href="/download" className="hover:text-white">
+                  <Link href="/download" className="inline-block py-1.5 hover:text-white">
                     下载中心
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about" className="hover:text-white">
+                  <Link href="/about" className="inline-block py-1.5 hover:text-white">
                     关于
                   </Link>
                 </li>

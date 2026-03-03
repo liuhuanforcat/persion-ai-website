@@ -129,7 +129,7 @@ export function Header() {
         {/* 移动端汉堡按钮 */}
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-md text-white md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-md text-white md:hidden"
           onClick={() => setMobileMenuOpen((o) => !o)}
           aria-label={mobileMenuOpen ? "关闭菜单" : "打开菜单"}
           aria-expanded={mobileMenuOpen}

@@ -106,10 +106,13 @@ export function HeroCarousel({ slides = defaultSlides }: { slides?: HeroSlide[] 
             key={i}
             type="button"
             onClick={() => setIndex(i)}
-            className={`h-2 rounded-full transition-all ${i === index ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/70"
-              }`}
+            className="relative flex h-11 w-11 items-center justify-center"
             aria-label={`切换到第 ${i + 1} 屏`}
-          />
+          >
+            <span
+              className={`block h-2 rounded-full transition-all ${i === index ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/70"}`}
+            />
+          </button>
         ))}
       </div>
     </section>

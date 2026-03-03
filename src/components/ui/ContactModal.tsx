@@ -41,7 +41,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
       <div className="relative max-w-sm rounded-2xl bg-white p-6 shadow-xl">
         <button
           type="button"
-          className="absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+          className="absolute right-3 top-3 rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
           onClick={onClose}
           aria-label="关闭"
         >

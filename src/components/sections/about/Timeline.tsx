@@ -290,7 +290,7 @@ export function Timeline() {
 
                       {/* 日期标签 */}
                       <span
-                        className={`mt-2 whitespace-nowrap text-[10px] font-medium transition-colors duration-300 ${isActive
+                        className={`mt-2 whitespace-nowrap text-xs font-medium transition-colors duration-300 ${isActive
                           ? "font-semibold text-blue-600"
                           : isPast
                             ? "text-gray-500"
@@ -305,7 +305,7 @@ export function Timeline() {
                         <motion.span
                           initial={{ opacity: 0, y: -4 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="mt-0.5 whitespace-nowrap text-[10px] text-gray-400"
+                          className="mt-0.5 whitespace-nowrap text-xs text-gray-400"
                         >
                           {m.title}
                         </motion.span>
@@ -360,7 +360,7 @@ export function Timeline() {
                   <h3 className="text-lg font-bold text-gray-900">
                     {active.title}
                   </h3>
-                  <p className="mt-2 max-w-sm text-[13px] leading-relaxed text-gray-500">
+                  <p className="mt-2 max-w-sm text-sm leading-relaxed text-gray-500">
                     {active.description}
                   </p>
 
@@ -369,20 +369,20 @@ export function Timeline() {
                     <button
                       onClick={() => handleUserInteract(activeIndex - 1)}
                       disabled={activeIndex === 0}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 text-gray-400 transition-all hover:border-blue-300 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-30"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-400 transition-all hover:border-blue-300 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-30"
                       aria-label="上一个里程碑"
                     >
-                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                       </svg>
                     </button>
                     <button
                       onClick={() => handleUserInteract(activeIndex + 1)}
                       disabled={activeIndex === milestones.length - 1}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 text-gray-400 transition-all hover:border-blue-300 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-30"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-400 transition-all hover:border-blue-300 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-30"
                       aria-label="下一个里程碑"
                     >
-                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
                     </button>
