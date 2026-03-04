@@ -12,6 +12,7 @@ import {
   EASE,
 } from "@/lib/motion-variants";
 import { useDeviceType, type DeviceType } from "@/hooks/useDeviceType";
+import { QRCodeSVG } from "qrcode.react";
 import { get } from "@/lib/service";
 import { SliderCaptcha } from "@/components/ui/SliderCaptcha";
 
@@ -38,7 +39,6 @@ interface Platform {
   name: string;
   downloadUrl?: string;
   mobileDownloadUrl?: string;
-  qrCode?: string;
   version: string;
   updatedAt: string;
   hoverText: string;
@@ -69,7 +69,6 @@ function buildPlatforms(result?: LatestInfoResult): Platform[] {
     {
       id: "ios",
       name: "iOS",
-      qrCode: "/images/ios-download-qrcode.png",
       mobileDownloadUrl: result?.I?.downloadUrl || "https://apps.apple.com/cn/app/id6480379498",
       mobileButtonText: "前往 App Store 下载",
       version: result?.I ? `v${result.I.version}` : "",
@@ -80,7 +79,6 @@ function buildPlatforms(result?: LatestInfoResult): Platform[] {
     {
       id: "android",
       name: "Android",
-      qrCode: "/images/android-download-qrcode.png",
       mobileDownloadUrl: result?.A?.downloadUrl || "https://api.onlineinline.com/download/android",
       mobileButtonText: "下载安卓版",
       version: result?.A ? `v${result.A.version}` : "",
@@ -161,21 +159,47 @@ function MobileDownloadView({ platform, onDownloadClick }: { platform: Platform;
 /* 桌面端卡片                                                          */
 /* ------------------------------------------------------------------ */
 
-function PlatformCard({ platform, onDownloadClick }: { platform: Platform; onDownloadClick: (p: Platform) => void }) {
+function PlatformCard({ platform, onDownloadClick }: {
+  platform: Platform;
+  onDownloadClick: (p: Platform) => void;
+}) {
   const [active, setActive] = useState(false);
+  const [qrUrl, setQrUrl] = useState<string | undefined>(undefined);
+  const [qrLoading, setQrLoading] = useState(false);
   const hasDirectLink = !!platform.downloadUrl;
+  const needsSignedQr = !hasDirectLink && !!platform.mobileDownloadUrl && platform.id === "android";
+
+  const handleMouseEnter = async () => {
+    setActive(true);
+    if (needsSignedQr) {
+      setQrLoading(true);
+      try {
+        const res = await get("/api/voip/v1/sliderCaptcha/getSign");
+        const data = (res as { result?: SignData }).result ?? (res as { data?: SignData }).data;
+        if (data?.sign && platform.mobileDownloadUrl) {
+          setQrUrl(buildSignedUrl(platform.mobileDownloadUrl, data));
+        }
+      } catch {
+        setQrUrl(undefined);
+      } finally {
+        setQrLoading(false);
+      }
+    }
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     onDownloadClick(platform);
   };
 
-  const cardContent = (
+  const qrValue = needsSignedQr ? qrUrl : platform.mobileDownloadUrl;
+
+  return (
     <motion.div
       variants={cardVariants}
       whileHover={{ y: -8 }}
       transition={SPRING.snappy}
-      onMouseEnter={() => setActive(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setActive(false)}
       onClick={(e) => {
         if (hasDirectLink) {
@@ -214,28 +238,43 @@ function PlatformCard({ platform, onDownloadClick }: { platform: Platform; onDow
             />
             <span className="text-sm font-medium">{platform.hoverText}</span>
           </>
-        ) : (
+        ) : qrLoading ? (
+          <div className="flex flex-col items-center gap-2">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-200 border-t-green-500" />
+            <span className="text-xs text-gray-400">加载中...</span>
+          </div>
+        ) : qrValue ? (
           <>
-            <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-white p-1.5">
-              <img
-                src={platform.qrCode!}
-                alt={`${platform.name} 下载二维码`}
-                className="h-full w-full object-contain"
+            <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-white p-2">
+              <QRCodeSVG
+                value={qrValue}
+                size={96}
+                level="M"
+                bgColor="transparent"
+                fgColor="#16a34a"
               />
             </div>
             <span className="text-sm font-medium">{platform.hoverText}</span>
           </>
-        )}
+        ) : null}
       </div>
     </motion.div>
   );
-
-  return cardContent;
 }
 
 /* ------------------------------------------------------------------ */
 /* 主组件                                                              */
 /* ------------------------------------------------------------------ */
+
+interface SignData {
+  sign: string;
+  expires: string;
+}
+
+function buildSignedUrl(baseUrl: string, signData: SignData): string {
+  const sep = baseUrl.includes("?") ? "&" : "?";
+  return `${baseUrl}${sep}sign=${encodeURIComponent(signData.sign)}&expires=${encodeURIComponent(signData.expires)}`;
+}
 
 export function DownloadCards() {
   const device = useDeviceType();
@@ -260,13 +299,13 @@ export function DownloadCards() {
     setCaptchaOpen(true);
   };
 
-  const handleCaptchaSuccess = (verKey: string, xPosition: number) => {
+  const handleCaptchaSuccess = (sign: string, expires: string) => {
     const platform = pendingPlatformRef.current;
     if (!platform) return;
 
     const downloadUrl = platform.downloadUrl || platform.mobileDownloadUrl;
     if (downloadUrl) {
-      window.open(`${downloadUrl}?verKey=${verKey}&xPosition=${xPosition}`, "_blank");
+      window.open(`${downloadUrl}?sign=${sign}&expires=${expires}`, "_blank");
     }
     setCaptchaOpen(false);
     pendingPlatformRef.current = null;
